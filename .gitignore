@@ -6,3 +6,5 @@
 .idea/
 target/
 *.iml
+!/.idea/runConfigurations/
+!/.idea/codeStyleSettings.xml
