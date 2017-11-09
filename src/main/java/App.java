@@ -1,14 +1,19 @@
 import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.JPanel;
 
+/**
+ * Created by mpetuska on November 2017
+ */
 public class App
 {
+	private JPanel mainPanel;
+	
 	public static void main(String[] args)
 	{
-		JFrame f = new JFrame("Hello World");
-		f.add(new JLabel("Hello"));
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.pack();
-		f.setVisible(true);
+		JFrame frame = new JFrame("App");
+		frame.setContentPane(new App().mainPanel);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.pack();
+		frame.setVisible(true);
 	}
 }
