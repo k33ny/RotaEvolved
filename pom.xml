@@ -77,5 +77,11 @@
 			<version>1.2.14</version>
 			<scope>runtime</scope>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.intellij/forms_rt -->
+		<dependency>
+			<groupId>com.intellij</groupId>
+			<artifactId>forms_rt</artifactId>
+			<version>7.0.3</version>
+		</dependency>
 	</dependencies>
 </project>
