@@ -5,7 +5,9 @@
     <constraints>
       <xy x="5" y="5" width="694" height="390"/>
     </constraints>
-    <properties/>
+    <properties>
+      <enabled value="true"/>
+    </properties>
     <border type="none"/>
     <children>
       <tabbedpane id="3106f" binding="tabbedPane1" default-binding="true">

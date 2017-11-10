@@ -12,6 +12,7 @@ public class App
 		JFrame frame = new JFrame("MainForm");
 		frame.setContentPane(new MainForm().getMainPanel());
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setTitle("Rota Evolved");
 		frame.pack();
 		frame.setVisible(true);
 	}

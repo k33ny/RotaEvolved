@@ -26,6 +26,7 @@ public class AvailabilityEditorDialog extends JDialog
 		setContentPane(contentPane);
 		setModal(true);
 		getRootPane().setDefaultButton(buttonOK);
+		setTitle("Availability Editor");
 		
 		buttonOK.addActionListener(new ActionListener()
 		{
