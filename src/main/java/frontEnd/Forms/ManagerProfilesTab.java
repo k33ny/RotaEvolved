@@ -1,4 +1,4 @@
-package frontEnd;
+package frontEnd.Forms;
 
 import javax.swing.JButton;
 import javax.swing.JList;

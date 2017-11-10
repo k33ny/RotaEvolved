@@ -1,4 +1,4 @@
-package frontEnd;
+package frontEnd.Forms;
 
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -10,4 +10,9 @@ public class MainForm
 {
 	private JPanel mainPanel;
 	private JTabbedPane tabbedPane1;
+	
+	public JPanel getMainPanel()
+	{
+		return mainPanel;
+	}
 }

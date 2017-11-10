@@ -1,4 +1,4 @@
-import frontEnd.MainForm;
+import frontEnd.Forms.MainForm;
 
 import javax.swing.JFrame;
 
