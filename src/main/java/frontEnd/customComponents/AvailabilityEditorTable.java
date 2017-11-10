@@ -1,0 +1,129 @@
+package frontEnd.customComponents;
+
+import javax.swing.JLabel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
+import java.awt.Component;
+import java.awt.Font;
+
+/**
+ * Created by marty on November 2017
+ */
+public class AvailabilityEditorTable extends JTable
+{
+	private static final String[] columnHeaderNamesShort = new String[] { "", "Mon", "Tue", "Wed",
+			"Thu", "Fri", "Sat", "Sun" };
+	private static final String[] columnHeaderNamesFull = new String[] { "", "Monday", "Tuesday",
+			"Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
+	
+	public static boolean useFullDayNames = true;
+	public static boolean showTimeAsIntervals = true;
+	
+	public AvailabilityEditorTable()
+	{
+		this(30);
+	}
+	
+	public AvailabilityEditorTable(int minutesPerRow)
+	{
+		super(new DefaultTableModel(generateSampleData(minutesPerRow),
+				useFullDayNames ? columnHeaderNamesFull : columnHeaderNamesShort));
+		getColumnModel().getColumn(0).setCellRenderer(new RowHeaderRenderer());
+		
+		setCellSelectionEnabled(true);
+		setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+	}
+	
+	private static Object[][] generateSampleData(int minutesPerRow)
+	{
+		int colCount = 7;
+		int rowCount = 24 * (60 / minutesPerRow);
+		Object[][] data = new Object[rowCount][colCount];
+		
+		int hours = 0;
+		int minutes = 0;
+		for (int row = 0; row < rowCount; row++)
+		{
+			String hr = hours < 10 ? "0" + hours : String.valueOf(hours);
+			String min = minutes < 10 ? "0" + minutes : String.valueOf(minutes);
+			String value = hr + ":" + min;
+			
+			minutes += minutesPerRow;
+			if (minutes >= 60)
+			{
+				hours++;
+				minutes = minutes - 60;
+			}
+			
+			if (showTimeAsIntervals)
+			{
+				String hr1 = hours < 10 ? "0" + hours : String.valueOf(hours);
+				String min1 = minutes < 10 ? "0" + minutes : String.valueOf(minutes);
+				value += " - " + hr1 + ":" + min1;
+			}
+			
+			data[row][0] = value;
+		}
+		
+		for (int col = 1; col < colCount; col++)
+		{
+			for (int row = 0; row < rowCount; row++)
+			{
+				data[row][col] = null;
+			}
+		}
+		
+		return data;
+	}
+	
+	@Override public boolean isCellEditable(int row, int column)
+	{
+		return false;
+	}
+	
+	@Override public Component prepareRenderer(TableCellRenderer renderer, int row, int column)
+	{
+		Component component = super.prepareRenderer(renderer, row, column);
+		int rendererWidth = component.getPreferredSize().width;
+		TableColumn tableColumn = getColumnModel().getColumn(column);
+		tableColumn.setPreferredWidth(Math.max(rendererWidth + getIntercellSpacing().width,
+				tableColumn.getPreferredWidth()));
+		return component;
+	}
+	
+	class RowHeaderRenderer extends DefaultTableCellRenderer
+	{
+		public RowHeaderRenderer()
+		{
+			setHorizontalAlignment(JLabel.CENTER);
+		}
+		
+		@Override public Component getTableCellRendererComponent(JTable table, Object value,
+				boolean isSelected, boolean hasFocus, int row, int column)
+		{
+			if (table != null)
+			{
+				JTableHeader header = table.getTableHeader();
+				
+				if (header != null)
+				{
+					setForeground(header.getForeground());
+					setBackground(header.getBackground());
+					setFont(header.getFont());
+				}
+			}
+			
+			if (isSelected)
+			{
+				setFont(getFont().deriveFont(Font.BOLD));
+			}
+			
+			setValue(value);
+			return this;
+		}
+	}
+}

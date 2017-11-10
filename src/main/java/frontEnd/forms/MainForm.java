@@ -1,4 +1,4 @@
-package frontEnd.Forms;
+package frontEnd.forms;
 
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
