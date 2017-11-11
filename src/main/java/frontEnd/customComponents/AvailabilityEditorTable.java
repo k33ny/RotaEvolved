@@ -1,5 +1,8 @@
 package frontEnd.customComponents;
 
+import frontEnd.enums.AvailabilityEditorStatus;
+import javafx.util.Pair;
+
 import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -8,7 +11,8 @@ import javax.swing.table.JTableHeader;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import java.awt.Component;
-import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 /**
  * Created by marty on November 2017
@@ -23,6 +27,8 @@ public class AvailabilityEditorTable extends JTable
 	public static boolean useFullDayNames = true;
 	public static boolean showTimeAsIntervals = true;
 	
+	private AvailabilityEditorStatus[][] cellStatuses;
+	
 	public AvailabilityEditorTable()
 	{
 		this(30);
@@ -36,6 +42,15 @@ public class AvailabilityEditorTable extends JTable
 		
 		setCellSelectionEnabled(true);
 		setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		cellStatuses = new AvailabilityEditorStatus[getRowCount()][getColumnCount()];
+		for (int row = 0; row < getRowCount(); row++)
+		{
+			for (int col = 0; col < getColumnCount(); col++)
+			{
+				cellStatuses[row][col] = AvailabilityEditorStatus.EMPTY;
+			}
+		}
+		addListeners();
 	}
 	
 	private static Object[][] generateSampleData(int minutesPerRow)
@@ -80,18 +95,72 @@ public class AvailabilityEditorTable extends JTable
 		return data;
 	}
 	
-	@Override public boolean isCellEditable(int row, int column)
+	private void addListeners()
+	{
+		addMouseListener(new MouseAdapter()
+		{
+			@Override
+			public void mouseReleased(MouseEvent e)
+			{
+				Pair<Integer, Integer> startCell = new Pair<>(
+						getSelectionModel().getAnchorSelectionIndex(),
+						getColumnModel().getSelectionModel().getAnchorSelectionIndex());
+				Pair<Integer, Integer> endCell = new Pair<>(
+						getSelectionModel().getLeadSelectionIndex(),
+						getColumnModel().getSelectionModel().getLeadSelectionIndex());
+				
+				for (int row = Math.min(startCell.getKey(), endCell.getKey());
+					 row <= Math.max(startCell.getKey(), endCell.getKey()); row++)
+				{
+					for (int col = Math.min(startCell.getValue(), endCell.getValue());
+						 col <= Math.max(startCell.getValue(), endCell.getValue()); col++)
+					{
+						AvailabilityEditorStatus status = cellStatuses[row][col];
+						if (e.getButton() == 1)
+						{
+							if (status != AvailabilityEditorStatus.ADDED)
+							{
+								cellStatuses[row][col] = AvailabilityEditorStatus.PENDING_ADD;
+							}
+						}
+						else if (e.getButton() == 2)
+						{
+							if (status == AvailabilityEditorStatus.ADDED)
+							{
+								cellStatuses[row][col] = AvailabilityEditorStatus.PENDING_DELETE;
+							}
+							if (status == AvailabilityEditorStatus.PENDING_ADD)
+							{
+								cellStatuses[row][col] = AvailabilityEditorStatus.EMPTY;
+							}
+						}
+						
+					}
+				}
+				getSelectionModel().clearSelection();
+			}
+		});
+	}
+	
+	@Override
+	public boolean isCellEditable(int row, int column)
 	{
 		return false;
 	}
 	
-	@Override public Component prepareRenderer(TableCellRenderer renderer, int row, int column)
+	@Override
+	public Component prepareRenderer(TableCellRenderer renderer, int row, int column)
 	{
 		Component component = super.prepareRenderer(renderer, row, column);
 		int rendererWidth = component.getPreferredSize().width;
 		TableColumn tableColumn = getColumnModel().getColumn(column);
 		tableColumn.setPreferredWidth(Math.max(rendererWidth + getIntercellSpacing().width,
 				tableColumn.getPreferredWidth()));
+		
+		if (!isCellSelected(row, column) && column > 0)
+		{
+			component.setBackground(cellStatuses[row][column].getColor());
+		}
 		return component;
 	}
 	
@@ -102,7 +171,8 @@ public class AvailabilityEditorTable extends JTable
 			setHorizontalAlignment(JLabel.CENTER);
 		}
 		
-		@Override public Component getTableCellRendererComponent(JTable table, Object value,
+		@Override
+		public Component getTableCellRendererComponent(JTable table, Object value,
 				boolean isSelected, boolean hasFocus, int row, int column)
 		{
 			if (table != null)
@@ -119,7 +189,7 @@ public class AvailabilityEditorTable extends JTable
 			
 			if (isSelected)
 			{
-				setFont(getFont().deriveFont(Font.BOLD));
+				//				setFont(getFont().deriveFont(Font.BOLD));
 			}
 			
 			setValue(value);

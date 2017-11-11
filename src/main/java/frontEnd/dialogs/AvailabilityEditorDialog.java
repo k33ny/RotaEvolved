@@ -6,7 +6,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
-import javax.swing.JTable;
+import javax.swing.JRadioButton;
 import javax.swing.KeyStroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,6 +20,9 @@ public class AvailabilityEditorDialog extends JDialog
 	private JButton buttonOK;
 	private JButton buttonCancel;
 	private AvailabilityEditorTable availabilityTable;
+	private JPanel togglePanel;
+	private JRadioButton radioButton1;
+	private JRadioButton radioButton2;
 	
 	public AvailabilityEditorDialog()
 	{
@@ -56,12 +59,13 @@ public class AvailabilityEditorDialog extends JDialog
 		
 		// call onCancel() on ESCAPE
 		contentPane.registerKeyboardAction(new ActionListener()
-		{
-			public void actionPerformed(ActionEvent e)
-			{
-				onCancel();
-			}
-		}, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+										   {
+											   public void actionPerformed(ActionEvent e)
+											   {
+												   onCancel();
+											   }
+										   }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+				JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 	}
 	
 	private void onOK()
