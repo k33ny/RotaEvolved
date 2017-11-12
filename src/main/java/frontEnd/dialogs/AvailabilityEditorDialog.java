@@ -2,15 +2,23 @@ package frontEnd.dialogs;
 
 import frontEnd.customComponents.AvailabilityEditorTable;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.KeyStroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -20,9 +28,10 @@ public class AvailabilityEditorDialog extends JDialog
 	private JButton buttonOK;
 	private JButton buttonCancel;
 	private AvailabilityEditorTable availabilityTable;
-	private JPanel togglePanel;
-	private JRadioButton radioButton1;
-	private JRadioButton radioButton2;
+	private JRadioButton radioDeleting;
+	private JRadioButton radioAdding;
+	private JLabel labelTotal;
+	private ButtonGroup radioGroupEditMode;
 	
 	public AvailabilityEditorDialog()
 	{
@@ -66,6 +75,65 @@ public class AvailabilityEditorDialog extends JDialog
 											   }
 										   }, KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
 				JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+		ItemListener listener1 = new ItemListener()
+		{
+			@Override
+			public void itemStateChanged(ItemEvent e)
+			{
+				boolean inDeleteMode = true;
+				if (e.getStateChange() == ItemEvent.SELECTED && e.getItem().equals(radioAdding))
+				{
+					inDeleteMode = false;
+				}
+				availabilityTable.setInDeleteMode(inDeleteMode);
+			}
+		};
+		radioDeleting.addItemListener(listener1);
+		radioAdding.addItemListener(listener1);
+		setupActionMap();
+		contentPane.setFocusable(true);
+		contentPane.requestFocus();
+		availabilityTable.addMouseListener(new MouseAdapter()
+		{
+			@Override
+			public void mousePressed(MouseEvent e)
+			{
+				super.mouseReleased(e);
+				labelTotal.setText(Integer.toString(availabilityTable.getTotalHours()));
+			}
+			
+			@Override
+			public void mouseReleased(MouseEvent e)
+			{
+				super.mouseReleased(e);
+				labelTotal.setText(Integer.toString(availabilityTable.getTotalHours()));
+			}
+		});
+		labelTotal.setText(Integer.toString(availabilityTable.getTotalHours()));
+	}
+	
+	private void setupActionMap()
+	{
+		
+		String modeChangeKey = "changeMode";
+		Action modeChangeAction = new AbstractAction(modeChangeKey)
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				if (radioGroupEditMode.getSelection() == radioAdding.getModel())
+				{
+					radioGroupEditMode.setSelected(radioDeleting.getModel(), true);
+				}
+				else
+				{
+					radioGroupEditMode.setSelected(radioAdding.getModel(), true);
+				}
+			}
+		};
+		contentPane.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT)
+				.put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0), modeChangeKey);
+		contentPane.getActionMap().put(modeChangeKey, modeChangeAction);
 	}
 	
 	private void onOK()

@@ -28,6 +28,7 @@ public class AvailabilityEditorTable extends JTable
 	public static boolean showTimeAsIntervals = true;
 	
 	private AvailabilityEditorStatus[][] cellStatuses;
+	private boolean isInDeleteMode = false;
 	
 	public AvailabilityEditorTable()
 	{
@@ -116,14 +117,18 @@ public class AvailabilityEditorTable extends JTable
 						 col <= Math.max(startCell.getValue(), endCell.getValue()); col++)
 					{
 						AvailabilityEditorStatus status = cellStatuses[row][col];
-						if (e.getButton() == 1)
+						if (!isInDeleteMode)
 						{
-							if (status != AvailabilityEditorStatus.ADDED)
+							if (status == AvailabilityEditorStatus.EMPTY)
 							{
 								cellStatuses[row][col] = AvailabilityEditorStatus.PENDING_ADD;
 							}
+							if (status == AvailabilityEditorStatus.PENDING_DELETE)
+							{
+								cellStatuses[row][col] = AvailabilityEditorStatus.ADDED;
+							}
 						}
-						else if (e.getButton() == 2)
+						else
 						{
 							if (status == AvailabilityEditorStatus.ADDED)
 							{
@@ -162,6 +167,28 @@ public class AvailabilityEditorTable extends JTable
 			component.setBackground(cellStatuses[row][column].getColor());
 		}
 		return component;
+	}
+	
+	public int getTotalHours()
+	{
+		int total = 0;
+		for (int r = 0; r < cellStatuses.length; r++)
+		{
+			for (int c = 1; c < cellStatuses[r].length; c++)
+			{
+				if (cellStatuses[r][c] != AvailabilityEditorStatus.EMPTY
+						&& cellStatuses[r][c] != AvailabilityEditorStatus.PENDING_DELETE)
+				{
+					total++;
+				}
+			}
+		}
+		return total;
+	}
+	
+	public void setInDeleteMode(boolean inDeleteMode)
+	{
+		isInDeleteMode = inDeleteMode;
 	}
 	
 	class RowHeaderRenderer extends DefaultTableCellRenderer
