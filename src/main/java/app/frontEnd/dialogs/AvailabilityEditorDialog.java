@@ -112,6 +112,18 @@ public class AvailabilityEditorDialog extends JDialog
 		labelTotal.setText(Integer.toString(availabilityTable.getTotalHours()));
 	}
 	
+	private void onOK()
+	{
+		// add your code here
+		dispose();
+	}
+	
+	private void onCancel()
+	{
+		// add your code here if necessary
+		dispose();
+	}
+	
 	private void setupActionMap()
 	{
 		
@@ -134,17 +146,5 @@ public class AvailabilityEditorDialog extends JDialog
 		contentPane.getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT)
 				.put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0), modeChangeKey);
 		contentPane.getActionMap().put(modeChangeKey, modeChangeAction);
-	}
-	
-	private void onOK()
-	{
-		// add your code here
-		dispose();
-	}
-	
-	private void onCancel()
-	{
-		// add your code here if necessary
-		dispose();
 	}
 }

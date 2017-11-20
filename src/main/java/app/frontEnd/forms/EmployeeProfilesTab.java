@@ -33,7 +33,8 @@ public class EmployeeProfilesTab
 	{
 		openEditorButton.addActionListener(new ActionListener()
 		{
-			@Override public void actionPerformed(ActionEvent e)
+			@Override
+			public void actionPerformed(ActionEvent e)
 			{
 				AvailabilityEditorDialog aed = new AvailabilityEditorDialog();
 				aed.pack();
