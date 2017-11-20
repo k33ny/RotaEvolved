@@ -6,19 +6,12 @@ import org.springframework.stereotype.Repository;
 import javax.annotation.Resource;
 
 /**
- * Created by marty on November 2017
+ * Created by Martynas Petuska on November 2017
+ * E-MAIL: martynas.petuska@outlook.com
  */
 @Repository
-public class DefaultDao
+public abstract class DefaultDao
 {
 	@Resource
-	private JdbcTemplate jdbcTemplate;
-	
-	public String getNameByID(int ID)
-	{
-		String name = jdbcTemplate
-				.queryForObject("SELECT name FROM users WHERE id = ?", new Object[] { ID },
-						String.class);
-		return name;
-	}
+	protected JdbcTemplate jdbcTemplate;
 }

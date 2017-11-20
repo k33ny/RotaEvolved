@@ -15,20 +15,4 @@
 			</list>
 		</property>
 	</bean>
-
-	<bean depends-on="dataSource"
-	      class="org.springframework.beans.factory.config.MethodInvokingBean">
-		<property name="targetClass" value="org.hsqldb.util.DatabaseManagerSwing"/>
-		<property name="targetMethod" value="main"/>
-		<property name="arguments">
-			<list>
-				<value>--url</value>
-				<value>${jdbc.url}</value>
-				<value>--user</value>
-				<value>${jdbc.username}</value>
-				<value>--password</value>
-				<value>${jdbc.password}</value>
-			</list>
-		</property>
-	</bean>
 </beans>

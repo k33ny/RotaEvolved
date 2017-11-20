@@ -14,13 +14,32 @@
     <schema id="5" parent="2" name="SYSTEM_LOBS"/>
     <table id="6" parent="4" name="TABLE_NAME"/>
     <table id="7" parent="4" name="TEST"/>
-    <column id="8" parent="6" name="COLUMN_1">
+    <table id="8" parent="4" name="USERS"/>
+    <column id="9" parent="6" name="COLUMN_1">
       <Position>1</Position>
       <DataType>INTEGER(32)|4</DataType>
     </column>
-    <column id="9" parent="7" name="TEST">
+    <column id="10" parent="7" name="TEST">
       <Position>1</Position>
       <DataType>INTEGER(32)|4</DataType>
     </column>
+    <column id="11" parent="8" name="ID">
+      <Position>1</Position>
+      <DataType>INTEGER(32)|4</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="12" parent="8" name="NAME">
+      <Position>2</Position>
+      <DataType>VARCHAR(30)|12</DataType>
+    </column>
+    <column id="13" parent="8" name="EMAIL">
+      <Position>3</Position>
+      <DataType>VARCHAR(50)|12</DataType>
+    </column>
+    <key id="14" parent="8" name="SYS_PK_10121">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>ID</ColNames>
+      <Primary>1</Primary>
+    </key>
   </database-model>
 </dataSource>

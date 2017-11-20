@@ -1,7 +1,9 @@
 package app.frontEnd.forms;
 
+import app.dao.DaoManager;
 import app.frontEnd.dialogs.AvailabilityEditorDialog;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -16,7 +18,7 @@ public class EmployeeProfilesTab
 {
 	private JButton newButton;
 	private JButton deleteButton;
-	private JList list1;
+	private JList lsEmployees;
 	private JButton editButton;
 	private JList list2;
 	private JButton addButton;
@@ -28,6 +30,8 @@ public class EmployeeProfilesTab
 	private JLabel lbDailyAverage;
 	private JLabel lbTotalAvailability;
 	private JLabel lbEmployeeCount;
+	
+	private DefaultListModel<String> employeesModel = new DefaultListModel<>();
 	
 	public EmployeeProfilesTab()
 	{
@@ -41,5 +45,20 @@ public class EmployeeProfilesTab
 				aed.setVisible(true);
 			}
 		});
+		populateEmployees();
+		lsEmployees.setModel(employeesModel);
+	}
+	
+	private void populateEmployees()
+	{
+		if (employeesModel == null)
+		{
+			employeesModel = new DefaultListModel<>();
+		}
+		employeesModel.clear();
+		for (String employee : DaoManager.getEmployeeDao().getEmployeeNames())
+		{
+			employeesModel.addElement(employee);
+		}
 	}
 }
