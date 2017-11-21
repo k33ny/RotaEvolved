@@ -15,4 +15,9 @@ public class EmployeeDao extends DefaultDao
 	{
 		return jdbcTemplate.queryForList("SELECT NAME FROM USERS", String.class);
 	}
+	
+	public boolean deleteEmployee(String employeeName)
+	{
+		return jdbcTemplate.update("DELETE FROM USERS WHERE NAME = ?", employeeName) > 0;
+	}
 }

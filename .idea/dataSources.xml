@@ -7,5 +7,11 @@
       <jdbc-driver>org.hsqldb.jdbc.JDBCDriver</jdbc-driver>
       <jdbc-url>jdbc:hsqldb:file:$PROJECT_DIR$/src/main/resources/database/hsqldb</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="database [TARGET]" uuid="ba00d3c4-250c-4304-a86a-49a803df7a8c">
+      <driver-ref>hsqldb.local</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.hsqldb.jdbc.JDBCDriver</jdbc-driver>
+      <jdbc-url>jdbc:hsqldb:file:$PROJECT_DIR$/target/classes/database/hsqldb;ifexists=true;</jdbc-url>
+    </data-source>
   </component>
 </project>

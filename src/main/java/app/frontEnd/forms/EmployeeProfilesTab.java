@@ -31,8 +31,6 @@ public class EmployeeProfilesTab
 	private JLabel lbTotalAvailability;
 	private JLabel lbEmployeeCount;
 	
-	private DefaultListModel<String> employeesModel = new DefaultListModel<>();
-	
 	public EmployeeProfilesTab()
 	{
 		openEditorButton.addActionListener(new ActionListener()
@@ -46,19 +44,25 @@ public class EmployeeProfilesTab
 			}
 		});
 		populateEmployees();
-		lsEmployees.setModel(employeesModel);
+		deleteButton.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				boolean status = DaoManager.getEmployeeDao()
+						.deleteEmployee((String) lsEmployees.getSelectedValue());
+				populateEmployees();
+			}
+		});
 	}
 	
 	private void populateEmployees()
 	{
-		if (employeesModel == null)
-		{
-			employeesModel = new DefaultListModel<>();
-		}
-		employeesModel.clear();
+		DefaultListModel<String> employeesModel = new DefaultListModel<>();
 		for (String employee : DaoManager.getEmployeeDao().getEmployeeNames())
 		{
 			employeesModel.addElement(employee);
 		}
+		lsEmployees.setModel(employeesModel);
 	}
 }
