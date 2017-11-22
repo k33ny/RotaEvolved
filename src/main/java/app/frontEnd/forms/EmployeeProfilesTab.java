@@ -54,6 +54,15 @@ public class EmployeeProfilesTab
 				populateEmployees();
 			}
 		});
+		newButton.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				boolean status = DaoManager.getEmployeeDao().addEmployee("testEmployee");
+				populateEmployees();
+			}
+		});
 	}
 	
 	private void populateEmployees()

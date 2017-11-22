@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="database" uuid="3936d280-4357-445d-b72d-899d587b87cd">
+    <data-source source="LOCAL" name="hsqldb" uuid="7f94d4b3-9b8c-480c-9db1-926b553b8c4e">
       <driver-ref>hsqldb.local</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.hsqldb.jdbc.JDBCDriver</jdbc-driver>
-      <jdbc-url>jdbc:hsqldb:file:$PROJECT_DIR$/src/main/resources/database/hsqldb</jdbc-url>
+      <jdbc-url>jdbc:hsqldb:file:$PROJECT_DIR$/src/main/resources/data/hsqldb</jdbc-url>
     </data-source>
-    <data-source source="LOCAL" name="database [TARGET]" uuid="ba00d3c4-250c-4304-a86a-49a803df7a8c">
+    <data-source source="LOCAL" name="hsqldb [target]" uuid="4886fa69-24f2-4d64-a2da-d4d9d51160d2">
       <driver-ref>hsqldb.local</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.hsqldb.jdbc.JDBCDriver</jdbc-driver>
-      <jdbc-url>jdbc:hsqldb:file:$PROJECT_DIR$/target/classes/database/hsqldb;ifexists=true;</jdbc-url>
+      <jdbc-url>jdbc:hsqldb:file:$PROJECT_DIR$/target/data/hsqldb</jdbc-url>
     </data-source>
   </component>
 </project>

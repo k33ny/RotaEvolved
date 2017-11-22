@@ -20,4 +20,10 @@ public class EmployeeDao extends DefaultDao
 	{
 		return jdbcTemplate.update("DELETE FROM USERS WHERE NAME = ?", employeeName) > 0;
 	}
+	
+	public boolean addEmployee(String employeeName)
+	{
+		return jdbcTemplate.update("INSERT INTO USERS VALUES (99, ?, ?)", employeeName,
+				employeeName + "@mail.com") > 0;
+	}
 }
